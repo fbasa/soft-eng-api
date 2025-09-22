@@ -1,6 +1,27 @@
+using Serilog;
+using SoftEng.Infrastructure;
+using SoftEng.Infrastructure.Concretes;
+using SoftEng.Infrastructure.Contracts;
+
+
+var logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateBootstrapLogger();
+
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Host.UseSerilog((ctx, lc) => lc.ReadFrom.Configuration(ctx.Configuration));
+
+builder.Services.Configure<DapperOptions>(builder.Configuration.GetSection("Dapper"));
+
+builder.Services.AddSingleton(sp =>
+    SqlRetryHelper.CreateTimeoutRetryPipeline(
+        new SqlRetryHelper.SqlRetryOptions { MaxRetryAttempts = 3 }));
+
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+builder.Services.AddScoped<IDapperBaseService, DapperBaseService>();
+builder.Services.AddSingleton<ISqlConnectionFactory, SqlConnectionFactory>();
 
 builder.Services.AddControllers();
 

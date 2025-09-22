@@ -2,7 +2,7 @@
 
 public class StudentResponse
 {
-    public DateOnly Date { get; set; }
+    public int Id { get; set; }
 
     public int Gender { get; set; }
 

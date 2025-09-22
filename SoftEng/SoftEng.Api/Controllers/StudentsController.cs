@@ -1,28 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
-using SoftEng.Domain.Response;
+using SoftEng.Infrastructure.Contracts;
 
 namespace SoftEng.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class StudentsController : ControllerBase
+public class StudentsController(IStudentRepository repo, 
+    ILogger<StudentsController> logger) : ControllerBase
 {
-    private readonly ILogger<StudentsController> _logger;
-
-    public StudentsController(ILogger<StudentsController> logger)
-    {
-        _logger = logger;
-    }
-
     [HttpGet]
-    public IEnumerable<StudentResponse> Get()
+    public async Task<IActionResult> Get(CancellationToken ct)
     {
-        return Enumerable.Range(1, 5).Select(index => new StudentResponse
-        {
-            Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Gender = Random.Shared.Next(-20, 55),
-            FirstName = "Frank"
-        })
-        .ToArray();
+        logger.LogInformation("Executing get students...");
+        return Ok(await repo.GetStudents(ct));
     }
 }
