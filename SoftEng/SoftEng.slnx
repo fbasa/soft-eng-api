@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="SoftEng.Api/SoftEng.Api.csproj" />
+  <Project Path="SoftEng.Domain/SoftEng.Domain.csproj" />
+  <Project Path="SoftEng.Infrastructure/SoftEng.Infrastructure.csproj" />
+</Solution>
