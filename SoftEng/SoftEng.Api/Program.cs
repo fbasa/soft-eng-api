@@ -73,23 +73,28 @@ builder.Services.AddCors(cors =>
     });
 });
 
-//Distibuted caching
-builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+// Distributed caching
+var redisConnectionString = config.GetConnectionString("Redis");
+
+if (!string.IsNullOrWhiteSpace(redisConnectionString))
 {
-    var cfg = ConfigurationOptions.Parse(config.GetConnectionString("Redis")!, true);
-    cfg.AbortOnConnectFail = false;
-    cfg.ConnectRetry = 3;
-    cfg.SyncTimeout = 5000;
-    return ConnectionMultiplexer.Connect(cfg);
-}).AddSingleton<IDistributedCache>(sp =>
-{
-    return new RedisCache(new RedisCacheOptions
+    builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
     {
-        // Reuse the existing multiplexer instead of creating a new one
-        ConnectionMultiplexerFactory = () => Task.FromResult(sp.GetRequiredService<IConnectionMultiplexer>()),
-        InstanceName = "soft_eng:" // key prefix
+        var redisOptions = ConfigurationOptions.Parse(redisConnectionString, true);
+        redisOptions.AbortOnConnectFail = false;
+        redisOptions.ConnectRetry = 3;
+        redisOptions.SyncTimeout = 5000;
+        return ConnectionMultiplexer.Connect(redisOptions);
     });
-});
+
+    builder.Services.AddSingleton<IDistributedCache>(sp =>
+        new RedisCache(new RedisCacheOptions
+        {
+            // Reuse the existing multiplexer instead of creating a new one
+            ConnectionMultiplexerFactory = () => Task.FromResult(sp.GetRequiredService<IConnectionMultiplexer>()),
+            InstanceName = "soft_eng:" // key prefix
+        }));
+}
 //fallback to Memory cache
 builder.Services.AddMemoryCache();
 

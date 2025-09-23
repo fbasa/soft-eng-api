@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
@@ -6,7 +6,7 @@ using System.Text.Json;
 
 namespace SoftEng.Application.Caching;
 
-public sealed class QueryCacheBehavior<TRequest, TResponse>(IDistributedCache dist, IMemoryCache mem, ILoggerFactory factory) 
+public sealed class QueryCacheBehavior<TRequest, TResponse>(IMemoryCache mem, ILoggerFactory factory, IDistributedCache? dist = null)
     : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 {
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken ct)
@@ -15,37 +15,36 @@ public sealed class QueryCacheBehavior<TRequest, TResponse>(IDistributedCache di
 
         if (request is not ICacheableQuery cq) return await next();
 
-        if(dist is not null)
+        if (dist is null)
         {
-            try
-            {
-                var cached = await dist.GetStringAsync(cq.CacheKey, ct);
-                if (cached is not null) return JsonSerializer.Deserialize<TResponse>(cached)!;
-
-                var resp = await next();
-                var ttl = cq.Ttl ?? TimeSpan.FromSeconds(30);
-                await dist.SetStringAsync(cq.CacheKey, JsonSerializer.Serialize(resp),
-                    new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = cq.Ttl }, ct);
-                return resp;
-            }
-            catch (Exception ex)
-            {
-                //If Redis connection string not configured
-                logger.LogError(ex.Message);
-
-                return await fallback(next, cq);
-            }
+            return await FallbackAsync(next, cq);
         }
-        else
+
+        try
         {
-            return await fallback(next, cq);
+            var cached = await dist.GetStringAsync(cq.CacheKey, ct);
+            if (cached is not null) return JsonSerializer.Deserialize<TResponse>(cached)!;
+
+            var resp = await next();
+            var ttl = cq.Ttl ?? TimeSpan.FromSeconds(30);
+            await dist.SetStringAsync(
+                cq.CacheKey,
+                JsonSerializer.Serialize(resp),
+                new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = ttl },
+                ct);
+            return resp;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Distributed cache unavailable. Falling back to memory cache.");
+            return await FallbackAsync(next, cq);
         }
     }
 
-    private async Task<TResponse> fallback(RequestHandlerDelegate<TResponse> next, ICacheableQuery cq)
+    private async Task<TResponse> FallbackAsync(RequestHandlerDelegate<TResponse> next, ICacheableQuery cq)
     {
-        // fallback
         if (mem.TryGetValue(cq.CacheKey, out TResponse hit)) return hit!;
+
         var resp = await next();
         mem.Set(cq.CacheKey, resp, cq.Ttl ?? TimeSpan.FromSeconds(30));
         return resp;
