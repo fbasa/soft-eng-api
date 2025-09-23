@@ -5,8 +5,9 @@ namespace SoftEng.Infrastructure.Concretes;
 
 public class StudentRepository(IDapperBaseService dapper) : IStudentRepository
 {
-    public async Task<IEnumerable<StudentResponse>> GetStudents(CancellationToken ct)
+    public async Task<IReadOnlyList<StudentResponse>> GetStudentsAsync(CancellationToken ct)
     {
-        return await dapper.SqlQueryAsync<StudentResponse>("sp_GetStudents", null, ct);
+        var result = await dapper.SqlQueryAsync<StudentResponse>("sp_GetStudents", null, ct);
+        return result.ToList();
     }
 }

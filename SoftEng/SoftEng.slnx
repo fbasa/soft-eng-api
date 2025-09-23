@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="SoftEng.Api/SoftEng.Api.csproj" />
+  <Project Path="SoftEng.Application/SoftEng.Application.csproj" Id="dd3eda87-018d-476b-ae12-7d2295cd7d0a" />
   <Project Path="SoftEng.Domain/SoftEng.Domain.csproj" />
   <Project Path="SoftEng.Infrastructure/SoftEng.Infrastructure.csproj" />
 </Solution>

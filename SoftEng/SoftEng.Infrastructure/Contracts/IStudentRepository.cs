@@ -4,5 +4,5 @@ namespace SoftEng.Infrastructure.Contracts;
 
 public interface IStudentRepository
 {
-    Task<IEnumerable<StudentResponse>> GetStudents(CancellationToken ct);
+    Task<IReadOnlyList<StudentResponse>> GetStudentsAsync(CancellationToken ct);
 }
