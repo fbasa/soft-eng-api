@@ -1,10 +1,9 @@
-using Asp.Versioning;
 using MediatR;
+using Asp.Versioning;
+using SoftEng.Domain.Request;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OutputCaching;
-using Polly;
 using SoftEng.Application.Handlers;
-using SoftEng.Infrastructure.Contracts;
+using Microsoft.AspNetCore.OutputCaching;
 
 namespace SoftEng.Api.Controllers;
 
@@ -20,5 +19,11 @@ public class StudentsController(IMediator sender,
     {
         logger.LogInformation("Executing get students...");
         return Ok(await sender.Send(new StudentListQuery(), ct));
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddNew([FromBody] AddStudentRequest request, CancellationToken ct)
+    {
+        return Ok(await sender.Send(new AddStudentCommand(request), ct));
     }
 }

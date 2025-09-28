@@ -105,37 +105,21 @@ public class RequestParameterBuilder<TRequest>
     /// <summary>
     /// Builds DynamicParameters including both input and output mappings.
     /// </summary>
-    public DynamicParameters Build(bool includeErrMsgOutput = true)
+    public DynamicParameters Build()
     {
         var dp = new DynamicParameters();
 
         // add inputs
         foreach (var (name, getter) in _inputMappings)
         {
-            dp.Add($"p{name}", getter(_request));
+            dp.Add($"{name}", getter(_request));
         }
 
         // add outputs
         foreach (var (name, value, dbType, dir, size) in _outputMappings)
         {
-            dp.Add($"p{name}", value: value, dbType: dbType, direction: dir, size: size);
+            dp.Add($"{name}", value: value, dbType: dbType, direction: dir, size: size);
         }
-
-        if (includeErrMsgOutput)
-        {
-            dp.Add(
-              name: "@pErrorMsg",
-              dbType: DbType.String,
-              direction: ParameterDirection.InputOutput,
-              size: -1 // -1 means no limit for string types
-            ); 
-        }
-
-        dp.Add(
-            name: "@pErrorNo",
-            dbType: DbType.Int32,
-            direction: ParameterDirection.ReturnValue
-        );
 
         return dp;
     }
