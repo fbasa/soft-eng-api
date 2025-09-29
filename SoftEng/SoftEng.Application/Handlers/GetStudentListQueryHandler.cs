@@ -6,16 +6,16 @@ using SoftEng.Infrastructure.Contracts;
 
 namespace SoftEng.Application.Handlers;
 
-public record StudentListQuery() : IRequest<IReadOnlyList<StudentResponse>>, ICacheableQuery
+public record GetStudentListQuery() : IRequest<IReadOnlyList<GetStudentListResponse>>, ICacheableQuery
 {
     public string CacheKey => OutputCachedKeyNames.StudentList;
 
     public TimeSpan? Ttl => TimeSpan.FromSeconds(30);
 }
 
-public class StudentListQueryHandler(IStudentRepository repo) : IRequestHandler<StudentListQuery, IReadOnlyList<StudentResponse>>
+public class GetStudentListQueryHandler(IStudentRepository repo) : IRequestHandler<GetStudentListQuery, IReadOnlyList<GetStudentListResponse>>
 {
-    public async Task<IReadOnlyList<StudentResponse>> Handle(StudentListQuery request, CancellationToken ct)
+    public async Task<IReadOnlyList<GetStudentListResponse>> Handle(GetStudentListQuery request, CancellationToken ct)
     {
         return await repo.GetStudentsAsync(ct);
     }

@@ -1,7 +1,8 @@
-﻿using System.Data;
+﻿using Azure.Core;
 using SoftEng.Domain.Request;
 using SoftEng.Domain.Response;
 using SoftEng.Infrastructure.Contracts;
+using System.Data;
 
 namespace SoftEng.Infrastructure.Concretes;
 
@@ -22,9 +23,19 @@ public class StudentRepository(IDapperBaseService dapper) : IStudentRepository
         return parameters.Get<int>("StudentId");
     }
 
-    public async Task<IReadOnlyList<StudentResponse>> GetStudentsAsync(CancellationToken ct)
+    public async Task<GetStudentDetailsResponse> GetStudentDetailsAsync(GetStudentDetailsRequest request, CancellationToken ct)
     {
-        var result = await dapper.SqlQueryAsync<StudentResponse>("sp_GetStudents", null, ct);
+        var parameters = RequestParameterBuilder<GetStudentDetailsRequest>
+                    .For(request)
+                    .Input("StudentId",x => x.Id)
+                    .Build();
+        var result = await dapper.SqlQueryAsync<GetStudentDetailsResponse>("sp_GetStudentById", parameters, ct);
+        return result.FirstOrDefault()!;
+    }
+
+    public async Task<IReadOnlyList<GetStudentListResponse>> GetStudentsAsync(CancellationToken ct)
+    {
+        var result = await dapper.SqlQueryAsync<GetStudentListResponse>("sp_GetStudents", null, ct);
         return result.ToList();
     }
 }

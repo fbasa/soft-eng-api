@@ -18,7 +18,13 @@ public class StudentsController(IMediator sender,
     public async Task<IActionResult> Get(CancellationToken ct)
     {
         logger.LogInformation("Executing get students...");
-        return Ok(await sender.Send(new StudentListQuery(), ct));
+        return Ok(await sender.Send(new GetStudentListQuery(), ct));
+    }
+
+    [HttpGet("id")]
+    public async Task<IActionResult> GetById([FromQuery] GetStudentDetailsRequest request, CancellationToken ct)
+    {
+        return Ok(await sender.Send(new GetStudentDetailsQuery(request), ct));
     }
 
     [HttpPost]

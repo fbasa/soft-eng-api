@@ -1,6 +1,6 @@
 ﻿namespace SoftEng.Domain.Response;
 
-public class StudentResponse
+public class GetStudentListResponse
 {
     public int Id { get; set; }
 
