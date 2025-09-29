@@ -8,4 +8,5 @@ public interface IStudentRepository
     Task<int> AddStudentAsync(AddStudentRequest request, CancellationToken ct);
     Task<GetStudentDetailsResponse> GetStudentDetailsAsync(GetStudentDetailsRequest request, CancellationToken cancellationToken);
     Task<IReadOnlyList<GetStudentListResponse>> GetStudentsAsync(CancellationToken ct);
+    Task<int> UpdateStudentAsync(UpdateStudentRequest request, CancellationToken ct);
 }

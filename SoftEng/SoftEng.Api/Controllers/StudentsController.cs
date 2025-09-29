@@ -32,4 +32,10 @@ public class StudentsController(IMediator sender,
     {
         return Ok(await sender.Send(new AddStudentCommand(request), ct));
     }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateStudentAsync([FromBody] UpdateStudentRequest request, CancellationToken ct)
+    {
+        return Ok(await sender.Send(new UpdateStudentCommand(request), ct));
+    }
 }

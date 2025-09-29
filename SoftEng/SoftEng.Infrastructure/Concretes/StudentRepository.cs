@@ -38,4 +38,17 @@ public class StudentRepository(IDapperBaseService dapper) : IStudentRepository
         var result = await dapper.SqlQueryAsync<GetStudentListResponse>("sp_GetStudents", null, ct);
         return result.ToList();
     }
+
+    public async Task<int> UpdateStudentAsync(UpdateStudentRequest request, CancellationToken ct)
+    {
+        var parameters = RequestParameterBuilder<UpdateStudentRequest>
+                            .For(request)
+                            .Input(i => i.Id)
+                            .Input(i => i.FirstName)
+                            .Input(i => i.Age)
+                            .Input(i => i.Gender)
+                            .Build();
+
+        return await dapper.ExecuteCommandAsync("sp_UpdateStudent", parameters, ct);
+    }
 }
