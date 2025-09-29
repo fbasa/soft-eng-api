@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
+using SoftEng.Application.Common;
 using System.Text.Json;
 
 namespace SoftEng.Application.Caching;
@@ -32,6 +33,7 @@ public sealed class QueryCacheBehavior<TRequest, TResponse>(IMemoryCache mem, IL
                 JsonSerializer.Serialize(resp),
                 new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = ttl },
                 ct);
+            CacheKeys.Add(cq.CacheKey);
             return resp;
         }
         catch (Exception ex)
@@ -47,6 +49,7 @@ public sealed class QueryCacheBehavior<TRequest, TResponse>(IMemoryCache mem, IL
 
         var resp = await next();
         mem.Set(cq.CacheKey, resp, cq.Ttl ?? TimeSpan.FromSeconds(30));
+        CacheKeys.Add(cq.CacheKey);
         return resp;
     }
 }

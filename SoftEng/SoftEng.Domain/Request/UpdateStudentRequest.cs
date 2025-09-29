@@ -1,6 +1,6 @@
 ﻿namespace SoftEng.Domain.Request;
 
-public class UpdateStudentRequest : AddStudentRequest
+public class UpdateStudentRequest : CreateStudentRequest
 {
     public int Id { get; set; }
 }

@@ -1,22 +1,23 @@
 ﻿using MediatR;
 using SoftEng.Application.Caching;
 using SoftEng.Application.Common;
+using SoftEng.Domain.Request;
 using SoftEng.Domain.Response;
 using SoftEng.Infrastructure.Contracts;
 
 namespace SoftEng.Application.Handlers;
 
-public record GetStudentListQuery() : IRequest<IReadOnlyList<GetStudentListResponse>>, ICacheableQuery
+public record GetStudentListQuery(GetStudentListRequest Request) : IRequest<IReadOnlyList<GetStudentListResponse>>, ICacheableQuery
 {
-    public string CacheKey => OutputCachedKeyNames.StudentList;
+    public string CacheKey => $"{OutputCachedKeyNames.StudentList}_{Request.Page}_{Request.Size}";
 
     public TimeSpan? Ttl => TimeSpan.FromSeconds(30);
 }
 
 public class GetStudentListQueryHandler(IStudentRepository repo) : IRequestHandler<GetStudentListQuery, IReadOnlyList<GetStudentListResponse>>
 {
-    public async Task<IReadOnlyList<GetStudentListResponse>> Handle(GetStudentListQuery request, CancellationToken ct)
+    public async Task<IReadOnlyList<GetStudentListResponse>> Handle(GetStudentListQuery r, CancellationToken ct)
     {
-        return await repo.GetStudentsAsync(ct);
+        return await repo.GetStudentsAsync(r.Request, ct);
     }
 }

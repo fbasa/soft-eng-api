@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using SoftEng.Domain.Request;
 using SoftEng.Domain.Response;
 using SoftEng.Infrastructure.Contracts;
@@ -9,6 +10,15 @@ public record GetStudentDetailsQuery(GetStudentDetailsRequest Request) : IReques
 {
 
 }
+
+public sealed class GetStudentDetailsQueryValidator : AbstractValidator<GetStudentDetailsQuery>
+{
+    public GetStudentDetailsQueryValidator()
+    {
+        RuleFor(x => x.Request.Id).GreaterThanOrEqualTo(1);
+    }
+}
+
 public class GetStudentDetailsQueryHandler(IStudentRepository repo) : IRequestHandler<GetStudentDetailsQuery, GetStudentDetailsResponse>
 {
     public async Task<GetStudentDetailsResponse> Handle(GetStudentDetailsQuery r, CancellationToken cancellationToken)

@@ -15,10 +15,10 @@ public class StudentsController(IMediator sender,
 {
     [HttpGet]
     [OutputCache(PolicyName = "List30s")]
-    public async Task<IActionResult> Get(CancellationToken ct)
+    public async Task<IActionResult> Get([FromQuery] GetStudentListRequest request, CancellationToken ct)
     {
         logger.LogInformation("Executing get students...");
-        return Ok(await sender.Send(new GetStudentListQuery(), ct));
+        return Ok(await sender.Send(new GetStudentListQuery(request), ct));
     }
 
     [HttpGet("id")]
@@ -28,9 +28,9 @@ public class StudentsController(IMediator sender,
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddNew([FromBody] AddStudentRequest request, CancellationToken ct)
+    public async Task<IActionResult> AddNew([FromBody] CreateStudentRequest request, CancellationToken ct)
     {
-        return Ok(await sender.Send(new AddStudentCommand(request), ct));
+        return Ok(await sender.Send(new CreateStudentCommand(request), ct));
     }
 
     [HttpPut]
