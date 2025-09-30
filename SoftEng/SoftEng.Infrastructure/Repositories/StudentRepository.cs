@@ -3,6 +3,7 @@ using System.Data;
 using SoftEng.Domain.Request;
 using SoftEng.Domain.Response;
 using SoftEng.Application.Contracts;
+using SoftEng.Infrastructure.Dapper;
 
 namespace SoftEng.Infrastructure.Repositories;
 

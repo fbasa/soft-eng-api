@@ -1,4 +1,4 @@
-﻿namespace SoftEng.Infrastructure;
+﻿namespace SoftEng.Infrastructure.Dapper;
 
 
 public sealed class DapperOptions

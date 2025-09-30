@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using System.Data;
 
-namespace SoftEng.Infrastructure;
+namespace SoftEng.Infrastructure.Dapper;
 
 public interface ISqlConnectionFactory
 {

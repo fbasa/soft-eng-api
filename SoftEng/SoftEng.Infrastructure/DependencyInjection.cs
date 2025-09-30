@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SoftEng.Application.Contracts;
+using SoftEng.Infrastructure.Dapper;
 using SoftEng.Infrastructure.Repositories;
 
 namespace SoftEng.Infrastructure;

@@ -2,7 +2,7 @@ using Dapper;
 using System.Data;
 using System.Linq.Expressions;
 
-namespace SoftEng.Infrastructure;
+namespace SoftEng.Infrastructure.Dapper;
 
 public class RequestParameterBuilder<TRequest>
 {

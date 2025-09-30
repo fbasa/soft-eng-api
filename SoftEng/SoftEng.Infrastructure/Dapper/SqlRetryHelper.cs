@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using Polly;
 using Polly.Retry;
+using SoftEng.Infrastructure.Dapper;
 using System.Data;
 using System.Data.Common;
 

@@ -3,7 +3,7 @@ using Polly;
 using System.Data;
 using Microsoft.Extensions.Options;
 
-namespace SoftEng.Infrastructure;
+namespace SoftEng.Infrastructure.Dapper;
 
 public interface IDapperBaseService
 {
