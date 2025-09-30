@@ -1,9 +1,8 @@
 ﻿using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Components.Forms;
-using SoftEng.Application.Caching.Invalidator;
+using SoftEng.Application.Caching.EventHandlers;
 using SoftEng.Domain.Request;
-using SoftEng.Infrastructure.Contracts;
+using SoftEng.Application.Contracts;
 
 namespace SoftEng.Application.Handlers;
 
@@ -23,7 +22,7 @@ public class UpdateStudentCommandHandler(IMediator mediator, IStudentRepository 
     public async Task<int> Handle(UpdateStudentCommand r, CancellationToken ct)
     {
         var id = await repo.UpdateStudentAsync(r.Request, ct);
-        await mediator.Publish(new StudentListChanged());
+        await mediator.Publish(new StudentChangedEvent());
         return id;
     }
 }

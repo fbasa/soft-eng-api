@@ -16,7 +16,6 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\SoftEng.Domain\SoftEng.Domain.csproj" />
-	  <ProjectReference Include="..\SoftEng.Infrastructure\SoftEng.Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>

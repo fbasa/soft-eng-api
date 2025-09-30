@@ -1,14 +1,9 @@
-using AutoMapper;
-using MediatR;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.OpenApi.Models;
 using Serilog;
-using SoftEng.Application.Caching;
-using SoftEng.Application.Common;
+using SoftEng.Application;
 using SoftEng.Infrastructure;
-using SoftEng.Infrastructure.Concretes;
-using SoftEng.Infrastructure.Contracts;
 using StackExchange.Redis;
 
 
@@ -23,42 +18,11 @@ var config = builder.Configuration;
 
 builder.Host.UseSerilog((ctx, lc) => lc.ReadFrom.Configuration(ctx.Configuration));
 
-builder.Services.Configure<DapperOptions>(builder.Configuration.GetSection("Dapper"));
-
-//Polly
-builder.Services.AddSingleton(sp =>
-    SqlRetryHelper.CreateTimeoutRetryPipeline(
-        new SqlRetryHelper.SqlRetryOptions { MaxRetryAttempts = 3 }));
-
-//Repositories
-builder.Services.AddScoped<IStudentRepository, StudentRepository>();
-//TODO: Add more repository here
-
-
-//MediatR
-builder.Services.AddMediatR(cfg =>
-    cfg.RegisterServicesFromAssemblyContaining<ICacheableQuery>())
-        .AddTransient(typeof(IPipelineBehavior<,>), typeof(QueryCacheBehavior<,>));
-
-
-
-//Dapper
-builder.Services.AddScoped<IDapperBaseService, DapperBaseService>();
-builder.Services.AddSingleton<ISqlConnectionFactory, SqlConnectionFactory>();
-
-//Auto Mapper
-builder.Services.AddSingleton(sp => new MapperConfiguration(config =>
-{
-    config.AddProfile<AutoMapperProfile>();
-},sp.GetRequiredService<ILoggerFactory>()).CreateMapper());
+// Dependency Injection
+builder.Services.AddApplication(config);
+builder.Services.AddInfrastructure(config);
 
 builder.Services.AddControllers();
-
-// Api versioning
-VersionConfig.AddApiVersioning(builder.Services);
-
-//Output caching
-builder.Services.AddOutputCachingWithPolicies(config);
 
 //CORS
 builder.Services.AddCors(cors =>
@@ -95,6 +59,7 @@ if (!string.IsNullOrWhiteSpace(redisConnectionString))
             InstanceName = "soft_eng:" // key prefix
         }));
 }
+
 //fallback to Memory cache
 builder.Services.AddMemoryCache();
 

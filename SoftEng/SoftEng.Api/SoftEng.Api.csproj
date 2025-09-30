@@ -15,13 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SoftEng.Application\SoftEng.Application.csproj" />
-    <ProjectReference Include="..\SoftEng.Domain\SoftEng.Domain.csproj" />
-    <ProjectReference Include="..\SoftEng.Infrastructure\SoftEng.Infrastructure.csproj" />
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Properties\PublishProfiles\" />
+    <ProjectReference Include="..\SoftEng.Infrastructure\SoftEng.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -2,7 +2,7 @@
 using MediatR;
 using SoftEng.Domain.Request;
 using SoftEng.Domain.Response;
-using SoftEng.Infrastructure.Contracts;
+using SoftEng.Application.Contracts;
 
 namespace SoftEng.Application.Handlers;
 

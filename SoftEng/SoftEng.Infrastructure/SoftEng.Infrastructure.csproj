@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SoftEng.Application\SoftEng.Application.csproj" />
     <ProjectReference Include="..\SoftEng.Domain\SoftEng.Domain.csproj" />
   </ItemGroup>
 

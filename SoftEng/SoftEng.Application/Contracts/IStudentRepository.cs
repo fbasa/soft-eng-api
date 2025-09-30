@@ -1,7 +1,7 @@
 ﻿using SoftEng.Domain.Request;
 using SoftEng.Domain.Response;
 
-namespace SoftEng.Infrastructure.Contracts;
+namespace SoftEng.Application.Contracts;
 
 public interface IStudentRepository
 {

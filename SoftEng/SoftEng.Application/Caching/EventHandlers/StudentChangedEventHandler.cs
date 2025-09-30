@@ -3,13 +3,13 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using SoftEng.Application.Common;
 
-namespace SoftEng.Application.Caching.Invalidator;
+namespace SoftEng.Application.Caching.EventHandlers;
 
-public sealed record StudentListChanged() : INotification;
+public sealed record StudentChangedEvent() : INotification;
 
-public sealed class StudentListCacheInvalidator(IMemoryCache memory, IDistributedCache? dist = null) : INotificationHandler<StudentListChanged>
+public sealed class StudentChangedEventHandler(IMemoryCache memory, IDistributedCache? dist = null) : INotificationHandler<StudentChangedEvent>
 {
-    public async Task Handle(StudentListChanged n, CancellationToken ct)
+    public async Task Handle(StudentChangedEvent e, CancellationToken ct)
     {
         foreach (var key in CacheKeys.GetKeys(OutputCachedKeyNames.StudentList))
         {

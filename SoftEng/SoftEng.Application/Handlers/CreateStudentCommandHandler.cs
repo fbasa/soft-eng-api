@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using MediatR;
-using SoftEng.Application.Caching.Invalidator;
+using SoftEng.Application.Caching.EventHandlers;
 using SoftEng.Domain.Request;
-using SoftEng.Infrastructure.Contracts;
+using SoftEng.Application.Contracts;
 
 namespace SoftEng.Application.Handlers;
 
@@ -21,7 +21,7 @@ public class CreateStudentCommandHandler(IMediator mediator, IStudentRepository 
     public async Task<int> Handle(CreateStudentCommand r, CancellationToken ct)
     {
         var newId = await repo.AddStudentAsync(r.Request, ct);
-        await mediator.Publish(new StudentListChanged());
+        await mediator.Publish(new StudentChangedEvent());
         return newId;
     }
 }
