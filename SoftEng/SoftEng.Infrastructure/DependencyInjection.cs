@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SoftEng.Application.Contracts;
-using SoftEng.Infrastructure.Concretes;
+using SoftEng.Infrastructure.Repositories;
 
 namespace SoftEng.Infrastructure;
 

@@ -4,7 +4,7 @@ using SoftEng.Domain.Request;
 using SoftEng.Domain.Response;
 using SoftEng.Application.Contracts;
 
-namespace SoftEng.Infrastructure.Concretes;
+namespace SoftEng.Infrastructure.Repositories;
 
 public class StudentRepository(IDapperBaseService dapper) : IStudentRepository
 {
