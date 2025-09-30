@@ -8,7 +8,7 @@ using System.Data.Common;
 
 namespace SoftEng.Infrastructure;
 
-public static partial class SqlRetryHelper
+internal static partial class SqlRetryHelper
 {
     /// <summary>
     /// Create a retry pipeline that triggers only on command timeouts.

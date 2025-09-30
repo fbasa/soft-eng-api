@@ -7,7 +7,7 @@ using SoftEng.Infrastructure.Dapper;
 
 namespace SoftEng.Infrastructure.Repositories;
 
-public class StudentRepository(IDapperBaseService dapper) : IStudentRepository
+internal sealed class StudentRepository(IDapperBaseService dapper) : IStudentRepository
 {
     public async Task<int> AddStudentAsync(CreateStudentRequest request, CancellationToken ct)
     {

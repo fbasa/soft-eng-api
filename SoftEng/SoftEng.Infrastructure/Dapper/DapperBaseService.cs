@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 
 namespace SoftEng.Infrastructure.Dapper;
 
-public interface IDapperBaseService
+internal interface IDapperBaseService
 {
     Task<IEnumerable<T>> SqlQueryAsync<T>(
         string sql,
@@ -23,7 +23,7 @@ public interface IDapperBaseService
 /// <summary>
 /// Provides basic Dapper-based data access for stored procedures.
 /// </summary>
-public class DapperBaseService(
+internal sealed class DapperBaseService(
         ISqlConnectionFactory factory,
         IOptionsMonitor<DapperOptions> options,
         ResiliencePipeline pipeline

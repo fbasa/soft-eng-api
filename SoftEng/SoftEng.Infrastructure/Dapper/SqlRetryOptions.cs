@@ -3,7 +3,7 @@ using Polly;
 
 namespace SoftEng.Infrastructure;
 
-public static partial class SqlRetryHelper
+internal static partial class SqlRetryHelper
 {
     public sealed class SqlRetryOptions
     {

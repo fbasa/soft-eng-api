@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace SoftEng.Infrastructure.Dapper;
 
-public class RequestParameterBuilder<TRequest>
+internal class RequestParameterBuilder<TRequest>
 {
     private readonly TRequest _request;
 

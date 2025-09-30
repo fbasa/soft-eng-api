@@ -4,7 +4,7 @@ using System.Data;
 
 namespace SoftEng.Infrastructure.Dapper;
 
-public interface ISqlConnectionFactory
+internal interface ISqlConnectionFactory
 {
     Task<IDbConnection> OpenAsync(CancellationToken ct = default);
 }
@@ -23,7 +23,7 @@ public interface ISqlConnectionFactory
 /// doing a tight loop of many tiny commands where microseconds matter. 
 /// In those cases, explicitly create/own a connection for that unit of work and pass it down.
 /// </summary>
-public sealed class SqlConnectionFactory(IConfiguration cfg) : ISqlConnectionFactory
+internal sealed class SqlConnectionFactory(IConfiguration cfg) : ISqlConnectionFactory
 {
     public async Task<IDbConnection> OpenAsync(CancellationToken ct = default)
     {
