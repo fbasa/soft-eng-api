@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using MediatR;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SoftEng.Application.Contracts;
 using SoftEng.Infrastructure.Dapper;
@@ -22,9 +23,11 @@ public static class DependencyInjection
         //TODO: Add more repository here
 
         //Dapper
+        services.AddScoped<IUnitOfWork, SqlUnitOfWork>();
         services.AddScoped<IDapperBaseService, DapperBaseService>();
         services.AddSingleton<ISqlConnectionFactory, SqlConnectionFactory>();
 
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
 
         return services;
     }

@@ -33,6 +33,7 @@ public static class DependencyInjection
     {
    
        //Dapper service and connection factory has internal implem
+       services.AddScoped<IUnitOfWork, SqlUnitOfWork>();
        services.AddScoped<IDapperBaseService, DapperBaseService>();
        services.AddSingleton<ISqlConnectionFactory, SqlConnectionFactory>();
 
@@ -54,4 +55,42 @@ Tips & guardrails:
 * Do **not** try to reference `StudentRepository` from Presentation; call only `AddInfrastructure(...)`.
 
 
-With this setup you avoid exposing Dapper (or any infra detail) to Presentation/Application while keeping everything resolvable by DI.
+With this setup you avoid exposing Dapper (or any infra detail) to Presentation/Application while keeping everything resolvable by DI.  
+
+
+
+
+## Automatic transactions via a pipeline by marking the request as ITransactionalRequest
+
+If you use MediatR, you can move the begin/commit/rollback into a pipeline behavior so **every command** runs in a transaction automatically:
+
+```csharp
+internal sealed class TransactionBehavior<TReq, TRes>(IUnitOfWork uow) : IPipelineBehavior<TReq, TRes>
+{
+    public async Task<TRes> Handle(TReq request, RequestHandlerDelegate<TRes> next, CancellationToken ct)
+    {
+        if (request is not ITransactionalRequest)
+            return await next();
+
+        await uow.BeginAsync(ct);
+        try
+        {
+            var result = await next();
+            await uow.CommitAsync(ct);
+            return result;
+        }
+        catch
+        {
+            await uow.RollbackAsync(ct);
+            throw;
+        }
+    }
+}
+```
+
+Register:
+
+```csharp
+services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
+```
+

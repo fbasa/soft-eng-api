@@ -1,12 +1,12 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using System.Data;
+using System.Data.Common;
 
 namespace SoftEng.Infrastructure.Dapper;
 
 internal interface ISqlConnectionFactory
 {
-    Task<IDbConnection> OpenAsync(CancellationToken ct = default);
+    Task<DbConnection> OpenAsync(CancellationToken ct = default);
 }
 
 /// <summary>
@@ -25,10 +25,13 @@ internal interface ISqlConnectionFactory
 /// </summary>
 internal sealed class SqlConnectionFactory(IConfiguration cfg) : ISqlConnectionFactory
 {
-    public async Task<IDbConnection> OpenAsync(CancellationToken ct = default)
+    public async Task<DbConnection> OpenAsync(CancellationToken ct = default)
     {
-        var con = new SqlConnection(cfg.GetConnectionString("SoftEng")!);
+        var con = new SqlConnection(cfg.GetConnectionString("SoftEng"))
+            ?? throw new InvalidOperationException("Missing connection string");
+
         await con.OpenAsync(ct);
+
         return con;
     }
 }
