@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using SoftEng.Application.Caching;
-using SoftEng.Application.Common;
 using SoftEng.Domain.Request;
 using SoftEng.Domain.Response;
 using SoftEng.Application.Contracts;

@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
-using SoftEng.Application.Common;
 
 namespace SoftEng.Application.Caching.EventHandlers;
 

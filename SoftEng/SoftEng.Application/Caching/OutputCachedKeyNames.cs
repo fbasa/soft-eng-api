@@ -1,4 +1,4 @@
-﻿namespace SoftEng.Application.Common;
+﻿namespace SoftEng.Application.Caching;
 
 public sealed class OutputCachedKeyNames
 {

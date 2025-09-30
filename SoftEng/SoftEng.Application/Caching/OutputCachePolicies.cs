@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace SoftEng.Application.Common;
+namespace SoftEng.Application.Caching;
 
 public static class OutputCachePolicies
 {

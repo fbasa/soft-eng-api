@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 
-namespace SoftEng.Application.Common;
+namespace SoftEng.Application.Caching;
 
 public static class CacheKeys
 {
