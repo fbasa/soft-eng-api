@@ -20,7 +20,7 @@ public class CreateStudentCommandHandler(IMediator mediator, IStudentRepository 
 {
     public async Task<int> Handle(CreateStudentCommand r, CancellationToken ct)
     {
-        var newId = await repo.AddStudentAsync(r.Request, ct);
+        var newId = await repo.CreateStudentAsync(r.Request, ct);
         await mediator.Publish(new StudentChangedEvent());
         return newId;
     }

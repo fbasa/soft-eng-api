@@ -9,7 +9,7 @@ namespace SoftEng.Infrastructure.Repositories;
 
 internal sealed class StudentRepository(IDapperBaseService dapper) : IStudentRepository
 {
-    public async Task<int> AddStudentAsync(CreateStudentRequest request, CancellationToken ct)
+    public async Task<int> CreateStudentAsync(CreateStudentRequest request, CancellationToken ct)
     {
         var parameters = RequestParameterBuilder<CreateStudentRequest>
                             .For(request)
