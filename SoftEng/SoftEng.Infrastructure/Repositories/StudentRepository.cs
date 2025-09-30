@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using System.Data;
+﻿using System.Data;
 using SoftEng.Domain.Request;
 using SoftEng.Domain.Response;
 using SoftEng.Application.Contracts;
