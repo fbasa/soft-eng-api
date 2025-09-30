@@ -50,12 +50,8 @@ builder.Services.AddInfrastructure(builder.Configuration);
 
 Tips & guardrails:
 
-* Keep infra-only helpers (`IDapperBaseService`, etc.) **internal** too.
-* Do **not** try to reference `DapperStudentRepository` from Presentation; call only `AddInfrastructure(...)`.
-* For tests, if you need access to internal types, add:
+* Keep infra-only helpers (`IDapperBaseService, ISqlConnectionFactory`, etc.) **internal** too.
+* Do **not** try to reference `StudentRepository` from Presentation; call only `AddInfrastructure(...)`.
 
-  ```csharp
-  [assembly: InternalsVisibleTo("MyApp.Infrastructure.Tests")]
-  ```
 
 With this setup you avoid exposing Dapper (or any infra detail) to Presentation/Application while keeping everything resolvable by DI.
