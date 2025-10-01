@@ -24,7 +24,12 @@ public class StudentsController(IMediator sender,
     [HttpGet("id")]
     public async Task<IActionResult> GetStudentByIdAsync([FromQuery] GetStudentDetailsRequest request, CancellationToken ct)
     {
-        return Ok(await sender.Send(new GetStudentDetailsQuery(request), ct));
+        var result = await sender.Send(new GetStudentDetailsQuery(request), ct);
+        if(!result.IsSuccess)
+        {
+            return NotFound(result.Error);
+        }
+        return Ok(result);
     }
 
     [HttpPost]
@@ -37,5 +42,16 @@ public class StudentsController(IMediator sender,
     public async Task<IActionResult> UpdateStudentAsync([FromBody] UpdateStudentRequest request, CancellationToken ct)
     {
         return Ok(await sender.Send(new UpdateStudentCommand(request), ct));
+    }
+
+    [HttpDelete]
+    public async Task<IActionResult> DeleteStudentAsync([FromQuery] DeleteStudentRequest request, CancellationToken ct)
+    {
+        var result = await sender.Send(new DeleteStudentCommand(request), ct);
+        if(!result.IsSuccess)
+        {
+            return NotFound(result.Error);
+        }
+        return NoContent();
     }
 }

@@ -34,6 +34,16 @@ internal sealed class StudentRepository(IDapperBaseService dapper) : IStudentRep
         return parameters.Get<int>("Id");
     }
 
+    public async Task<bool> DeleteStudentAsync(DeleteStudentRequest request, CancellationToken ct)
+    {
+        var parameters = RequestParameterBuilder<DeleteStudentRequest>
+                   .For(request)
+                   .Input("Id", x => x.Id)
+                   .Build();
+        var result = await dapper.ExecuteCommandAsync("sp_DeleteStudentById", parameters, ct);
+        return true; //TODO: Change to check if row was actually deleted
+    }
+
     public async Task<GetStudentDetailsResponse> GetStudentDetailsAsync(GetStudentDetailsRequest request, CancellationToken ct)
     {
         var parameters = RequestParameterBuilder<GetStudentDetailsRequest>
