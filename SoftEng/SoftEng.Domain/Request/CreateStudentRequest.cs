@@ -19,5 +19,5 @@ public class StudentModel
 }
 public class CreateStudentRequest : StudentModel
 {
-    public string StudentId { get; set; } = Guid.NewGuid().ToString();
+    public string StudentId { get; set; } = StudentIdGenerator.GenerateStudentId();
 }
