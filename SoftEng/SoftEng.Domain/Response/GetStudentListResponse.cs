@@ -1,12 +1,8 @@
-﻿namespace SoftEng.Domain.Response;
+﻿using SoftEng.Domain.Request;
 
-public class GetStudentListResponse
+namespace SoftEng.Domain.Response;
+
+public class GetStudentListResponse : CreateStudentRequest
 {
     public int Id { get; set; }
-
-    public int Gender { get; set; }
-
-    public int Age { get; set; }
-
-    public string? FirstName { get; set; }
 }

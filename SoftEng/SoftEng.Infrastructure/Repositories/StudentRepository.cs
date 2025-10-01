@@ -13,21 +13,32 @@ internal sealed class StudentRepository(IDapperBaseService dapper) : IStudentRep
         var parameters = RequestParameterBuilder<CreateStudentRequest>
                             .For(request)
                             .Input(i => i.FirstName)
-                            .Input(i => i.Age)
+                            .Input(i => i.LastName)
+                            .Input(i => i.StudentId)
+                            .Input(i => i.EmailAddress)
+                            .Input(i => i.PhoneNumber)
+                            .Input(i => i.DOB)
                             .Input(i => i.Gender)
-                            .Output("StudentId", DbType.Int32)
+                            .Input(i => i.SchoolYear)
+                            .Input(i => i.YearSemester)
+                            .Input(i => i.ProgramClass)
+                            .Input(i => i.HomeAddress)
+                            .Input(i => i.EmergencyContact)
+                            .Input(i => i.EmergencyPhone)
+                            .Input(i => i.AdditonalNotes)
+                            .Output("Id", DbType.Int32)
                             .Build();
 
         await dapper.ExecuteCommandAsync("sp_InsertStudent", parameters, ct);
 
-        return parameters.Get<int>("StudentId");
+        return parameters.Get<int>("Id");
     }
 
     public async Task<GetStudentDetailsResponse> GetStudentDetailsAsync(GetStudentDetailsRequest request, CancellationToken ct)
     {
         var parameters = RequestParameterBuilder<GetStudentDetailsRequest>
                     .For(request)
-                    .Input("StudentId",x => x.Id)
+                    .Input("Id",x => x.Id)
                     .Build();
         var result = await dapper.SqlQueryAsync<GetStudentDetailsResponse>("sp_GetStudentById", parameters, ct);
         return result.FirstOrDefault()!;
@@ -50,8 +61,18 @@ internal sealed class StudentRepository(IDapperBaseService dapper) : IStudentRep
                             .For(request)
                             .Input(i => i.Id)
                             .Input(i => i.FirstName)
-                            .Input(i => i.Age)
+                            .Input(i => i.LastName)
+                            .Input(i => i.EmailAddress)
+                            .Input(i => i.PhoneNumber)
+                            .Input(i => i.DOB)
                             .Input(i => i.Gender)
+                            .Input(i => i.SchoolYear)
+                            .Input(i => i.YearSemester)
+                            .Input(i => i.ProgramClass)
+                            .Input(i => i.HomeAddress)
+                            .Input(i => i.EmergencyContact)
+                            .Input(i => i.EmergencyPhone)
+                            .Input(i => i.AdditonalNotes)
                             .Build();
 
         return await dapper.ExecuteCommandAsync("sp_UpdateStudent", parameters, ct);
