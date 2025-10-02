@@ -29,7 +29,7 @@ public class StudentsController(IMediator sender,
         {
             return NotFound(result.Error);
         }
-        return Ok(result);
+        return Ok(result.Value);
     }
 
     [HttpPost]

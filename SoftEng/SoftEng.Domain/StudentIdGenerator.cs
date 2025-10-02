@@ -1,13 +1,15 @@
-﻿namespace SoftEng.Domain;
+﻿using System;
+
+namespace SoftEng.Domain;
 
 public static class StudentIdGenerator
 {
-    private static int counter = 1; // You can persist this if needed
+    private static readonly Random _random = new();
 
     public static string GenerateStudentId(string courseCode = "CS305", string campusCode = "SJC")
     {
-        string uniquePart = counter.ToString("D4"); // Pads with leading zeros (e.g., 001, 002)
-        counter++; // Increment for next ID
-        return $"{courseCode}-{campusCode}-{uniquePart}";
+        string timestamp = DateTime.UtcNow.ToString("yyMMddHHmmssfff");
+
+        return $"{courseCode}-{campusCode}-{timestamp}";
     }
 }
