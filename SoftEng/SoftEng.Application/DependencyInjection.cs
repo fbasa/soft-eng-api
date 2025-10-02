@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using SoftEng.Application.Behavior;
 using SoftEng.Application.Caching;
 using SoftEng.Application.Common;
 
@@ -15,7 +16,8 @@ public static class DependencyInjection
         //MediatR
         services.AddMediatR(cfg =>
             cfg.RegisterServicesFromAssemblyContaining<ICacheableQuery>())
-                .AddTransient(typeof(IPipelineBehavior<,>), typeof(QueryCacheBehavior<,>));
+                .AddTransient(typeof(IPipelineBehavior<,>), typeof(QueryCacheBehavior<,>))
+                .AddTransient(typeof(IPipelineBehavior<,>), typeof(ExceptionHandlingBehavior<,>));
 
 
         //Auto Mapper
@@ -24,6 +26,8 @@ public static class DependencyInjection
             config.AddProfile<AutoMapperProfile>();
         }, sp.GetRequiredService<ILoggerFactory>()).CreateMapper());
 
+        // RFC 7807 ProblemDetails for error handling
+        services.AddProblemDetailsCustomization();
 
         // Api versioning
         VersionConfig.AddApiVersioning(services);

@@ -2,6 +2,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using SoftEng.Api.Errors;
 using SoftEng.Application;
 using SoftEng.Infrastructure;
 using StackExchange.Redis;
@@ -23,6 +24,9 @@ builder.Services.AddApplication(config);
 builder.Services.AddInfrastructure(config);
 
 builder.Services.AddControllers();
+
+// Global exception handler
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>(); 
 
 //CORS
 builder.Services.AddCors(cors =>
@@ -70,6 +74,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
+
 
 app.UseSwagger();
 app.UseSwagger();

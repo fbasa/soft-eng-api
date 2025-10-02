@@ -2,10 +2,10 @@ using MediatR;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
-using SoftEng.Application.Common;
+using SoftEng.Application.Caching;
 using System.Text.Json;
 
-namespace SoftEng.Application.Caching;
+namespace SoftEng.Application.Behavior;
 
 public sealed class QueryCacheBehavior<TRequest, TResponse>(IMemoryCache mem, ILoggerFactory factory, IDistributedCache? dist = null)
     : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
