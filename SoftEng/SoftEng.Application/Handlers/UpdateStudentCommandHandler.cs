@@ -7,7 +7,7 @@ using SoftEng.Application.Common;
 
 namespace SoftEng.Application.Handlers;
 
-public record UpdateStudentCommand(UpdateStudentRequest Request) : IRequest<Result<int>> { }
+public record UpdateStudentCommand(UpdateStudentRequest Request) : IRequest<int> { }
 
 public sealed class UpdateStudentCommandValidator : AbstractValidator<UpdateStudentCommand>
 {
@@ -18,12 +18,12 @@ public sealed class UpdateStudentCommandValidator : AbstractValidator<UpdateStud
     }
 }
 
-public class UpdateStudentCommandHandler(IMediator mediator, IStudentRepository repo) : IRequestHandler<UpdateStudentCommand, Result<int>>
+public class UpdateStudentCommandHandler(IMediator mediator, IStudentRepository repo) : IRequestHandler<UpdateStudentCommand, int>
 {
-    public async Task<Result<int>> Handle(UpdateStudentCommand r, CancellationToken ct)
+    public async Task<int> Handle(UpdateStudentCommand r, CancellationToken ct)
     {
         var id = await repo.UpdateStudentAsync(r.Request, ct);
         await mediator.Publish(new StudentChangedEvent());
-        return Result<int>.Success(id);
+        return id;
     }
 }
