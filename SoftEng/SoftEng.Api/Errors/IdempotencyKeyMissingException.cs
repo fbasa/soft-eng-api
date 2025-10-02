@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using SoftEng.Domain.Exception;
+﻿using SoftEng.Domain.Exception;
 
 namespace SoftEng.Api.Errors;
 

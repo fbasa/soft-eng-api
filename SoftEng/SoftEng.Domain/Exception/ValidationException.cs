@@ -1,7 +1,6 @@
-﻿using SoftEng.Domain.Exception;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
-namespace SoftEng.Api.Errors;
+namespace SoftEng.Domain.Exception;
 
 [Serializable]
 public sealed class ValidationException : DomainException
