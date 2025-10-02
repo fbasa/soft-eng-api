@@ -2,5 +2,4 @@
 
 public class GetStudentDetailsResponse : GetStudentListResponse
 {
-
 }
