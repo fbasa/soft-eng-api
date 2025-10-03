@@ -4,7 +4,7 @@ namespace SoftEng.Domain.Response;
 
 public class GetStudentListResponse 
 {
-    public IReadOnlyList<GetStudentResult> Items { get; set; }
+    public IReadOnlyList<GetStudentResult>? Items { get; set; }
     public int TotalCount { get; set; }
     public int TotalPages { get; set; }
 }
