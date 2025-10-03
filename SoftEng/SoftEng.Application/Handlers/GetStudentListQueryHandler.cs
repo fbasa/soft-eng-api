@@ -24,7 +24,7 @@ public class GetStudentListQueryHandler(IStudentRepository repo, IMapper mapper)
             var item = result.First();
             return new GetStudentListResponse()
             {
-                Items = mapper.Map<List<GetStudentResult>>(result),
+                Items = mapper.Map<IReadOnlyList<GetStudentResult>>(result),
                 TotalCount = item.TotalCount,
                 TotalPages = item.TotalPages
             };
