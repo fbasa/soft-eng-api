@@ -19,12 +19,16 @@ public class GetStudentListQueryHandler(IStudentRepository repo, IMapper mapper)
     public async Task<GetStudentListResponse> Handle(GetStudentListQuery r, CancellationToken ct)
     {
         var result = await repo.GetStudentsAsync(r.Request, ct);
-        var firstOrDefault = result.FirstOrDefault();
-        return new GetStudentListResponse()
+        if (result.Any())
         {
-            Items = mapper.Map<List<GetStudentResult>>(result),
-            TotalCount = firstOrDefault?.TotalCount ?? 0,
-            TotalPages = firstOrDefault?.TotalPages ?? 0
-        };
+            var item = result.First();
+            return new GetStudentListResponse()
+            {
+                Items = mapper.Map<List<GetStudentResult>>(result),
+                TotalCount = item.TotalCount,
+                TotalPages = item.TotalPages
+            };
+        }
+        return new GetStudentListResponse();
     }
 }
