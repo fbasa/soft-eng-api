@@ -77,7 +77,6 @@ var app = builder.Build();
 
 
 app.UseSwagger();
-app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     var provider = app.Services.GetRequiredService<Asp.Versioning.ApiExplorer.IApiVersionDescriptionProvider>();
