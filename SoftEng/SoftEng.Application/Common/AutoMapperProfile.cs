@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SoftEng.Domain.Response;
 
 namespace SoftEng.Application.Common;
 
@@ -8,5 +9,6 @@ public sealed class AutoMapperProfile : Profile
     {
         //TODO
         //CreateMap<TSource, TDestination>();
+        CreateMap<GetStudentListResult, GetStudentResult>();
     }
 }

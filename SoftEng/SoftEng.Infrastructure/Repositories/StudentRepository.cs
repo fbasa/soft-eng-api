@@ -54,14 +54,14 @@ internal sealed class StudentRepository(IDapperBaseService dapper) : IStudentRep
         return result.FirstOrDefault()!;
     }
 
-    public async Task<IReadOnlyList<GetStudentListResponse>> GetStudentsAsync(GetStudentListRequest request, CancellationToken ct)
+    public async Task<IReadOnlyList<GetStudentListResult>> GetStudentsAsync(GetStudentListRequest request, CancellationToken ct)
     {
         var parameters = RequestParameterBuilder<GetStudentListRequest>
                   .For(request)
                   .Input(x => x.Page)
                   .Input(x => x.Size)
                   .Build();
-        var result = await dapper.SqlQueryAsync<GetStudentListResponse>("sp_GetStudents", parameters, ct);
+        var result = await dapper.SqlQueryAsync<GetStudentListResult>("sp_GetStudents", parameters, ct);
         return result.ToList();
     }
 
