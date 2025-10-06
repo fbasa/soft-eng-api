@@ -1,5 +1,5 @@
 ﻿namespace SoftEng.Domain.Response;
 
-public class GetStudentDetailsResponse : GetStudentListResponse
+public class GetStudentDetailsResponse : GetStudentResult
 {
 }
