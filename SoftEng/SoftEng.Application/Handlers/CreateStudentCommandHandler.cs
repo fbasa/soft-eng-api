@@ -1,7 +1,6 @@
-﻿using FluentValidation;
-using MediatR;
+﻿using MediatR;
+using FluentValidation;
 using SoftEng.Application.Caching.EventHandlers;
-using SoftEng.Domain.Request;
 using SoftEng.Application.Contracts;
 
 namespace SoftEng.Application.Handlers;
@@ -13,6 +12,10 @@ public sealed class CreateStudentCommandValidator : AbstractValidator<CreateStud
     public CreateStudentCommandValidator() 
     { 
         RuleFor(x => x.Request.FirstName).NotEmpty().MaximumLength(50);
+        RuleFor(x => x.Request.LastName).NotEmpty().MaximumLength(50);
+        RuleFor(x => x.Request.EmailAddress).NotEmpty().MaximumLength(50);
+        RuleFor(x => x.Request.PhoneNumber).NotEmpty().MaximumLength(12);
+        RuleFor(x => x.Request.DOB).NotEmpty().LessThan(DateTime.Now);
     }
 }
 

@@ -26,7 +26,7 @@ public class GetStudentListQueryHandler(IStudentRepository repo, IMapper mapper)
             {
                 Items = mapper.Map<IReadOnlyList<GetStudentResult>>(result),
                 TotalCount = item.TotalCount,
-                TotalPages = item.TotalPages
+                Pages = item.TotalPages > 0 ? Enumerable.Range(1, item.TotalPages).ToArray() : Array.Empty<int>()
             };
         }
         return new GetStudentListResponse();

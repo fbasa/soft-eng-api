@@ -1,8 +1,9 @@
-﻿using System.Data;
+﻿using SoftEng.Application.Contracts;
+using SoftEng.Domain;
 using SoftEng.Domain.Request;
 using SoftEng.Domain.Response;
-using SoftEng.Application.Contracts;
 using SoftEng.Infrastructure.Dapper;
+using System.Data;
 
 namespace SoftEng.Infrastructure.Repositories;
 
@@ -14,7 +15,7 @@ internal sealed class StudentRepository(IDapperBaseService dapper) : IStudentRep
                             .For(request)
                             .Input(i => i.FirstName)
                             .Input(i => i.LastName)
-                            .Input(i => i.StudentId)
+                            .Input("StudentId", i => StudentIdGenerator.GenerateStudentId())
                             .Input(i => i.EmailAddress)
                             .Input(i => i.PhoneNumber)
                             .Input(i => i.DOB)

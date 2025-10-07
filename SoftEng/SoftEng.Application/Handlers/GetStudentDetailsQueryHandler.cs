@@ -1,5 +1,5 @@
-﻿using FluentValidation;
-using MediatR;
+﻿using MediatR;
+using FluentValidation;
 using SoftEng.Application.Common;
 using SoftEng.Application.Contracts;
 using SoftEng.Domain.Request;

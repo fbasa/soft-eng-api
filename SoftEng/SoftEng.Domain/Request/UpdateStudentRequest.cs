@@ -1,4 +1,6 @@
-﻿namespace SoftEng.Domain.Request;
+﻿using SoftEng.Domain.Model;
+
+namespace SoftEng.Domain.Request;
 
 public class UpdateStudentRequest : StudentModel
 {

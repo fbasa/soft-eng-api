@@ -1,12 +1,12 @@
-﻿using SoftEng.Domain.Request;
+﻿using SoftEng.Domain.Model;
 
 namespace SoftEng.Domain.Response;
 
-public class GetStudentListResponse 
+public class GetStudentListResponse
 {
     public IReadOnlyList<GetStudentResult> Items { get; set; } = Array.Empty<GetStudentResult>();
     public int TotalCount { get; set; }
-    public int TotalPages { get; set; }
+    public int[] Pages { get; set; } = Array.Empty<int>();
 }
 
 public class GetStudentListResult : StudentModel
@@ -14,14 +14,6 @@ public class GetStudentListResult : StudentModel
     public int Id { get; set; }
     public int TotalCount { get; set; }
     public int TotalPages { get; set; }
-    public string StudentId { get; set; }
-    public DateTime CreatedDate { get; set; }
-    public DateTime? ModifiedDate { get; set; }
-}
-
-public class GetStudentResult : StudentModel
-{
-    public int Id { get; set; }
     public string StudentId { get; set; }
     public DateTime CreatedDate { get; set; }
     public DateTime? ModifiedDate { get; set; }
