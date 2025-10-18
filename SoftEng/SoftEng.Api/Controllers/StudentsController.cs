@@ -21,34 +21,6 @@ public class StudentsController(IMediator sender,
         return Ok(await sender.Send(new GetStudentListQuery(request), ct));
     }
 
-    [HttpGet("Programs")]
-    public async Task<IActionResult> GetStudentsByProgramAsync([FromQuery] GetStudentsByProgramRequest request, CancellationToken ct)
-    {
-        logger.LogInformation("Executing get students by program...");
-        return Ok(await sender.Send(new GetStudentsByProgramQuery(request), ct));
-    }
-
-    [HttpGet("Semesters")]
-    public async Task<IActionResult> GetStudentsBySemesterAsync([FromQuery] GetStudentsBySemesterRequest request, CancellationToken ct)
-    {
-        logger.LogInformation("Executing get students by semester...");
-        return Ok(await sender.Send(new GetStudentsBySemesterQuery(request), ct));
-    }
-
-    [HttpGet("Schools")]
-    public async Task<IActionResult> GetStudentsBySchoolAsync([FromQuery] GetStudentsBySchoolRequest request, CancellationToken ct)
-    {
-        logger.LogInformation("Executing get students by school...");
-        return Ok(await sender.Send(new GetStudentsBySchoolQuery(request), ct));
-    }
-
-    [HttpGet("Genders")]
-    public async Task<IActionResult> GetStudentsByGenderAsync([FromQuery] GetStudentsByGenderRequest request, CancellationToken ct)
-    {
-        logger.LogInformation("Executing get students by gender...");
-        return Ok(await sender.Send(new GetStudentsByGenderQuery(request), ct));
-    }
-
     [HttpGet("id")]
     public async Task<IActionResult> GetStudentByIdAsync([FromQuery] GetStudentDetailsRequest request, CancellationToken ct)
     {
