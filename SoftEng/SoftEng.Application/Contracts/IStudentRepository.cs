@@ -10,4 +10,5 @@ public interface IStudentRepository
     Task<GetStudentDetailsResponse> GetStudentDetailsAsync(GetStudentDetailsRequest request, CancellationToken cancellationToken);
     Task<IReadOnlyList<GetStudentListResult>> GetStudentsAsync(GetStudentListRequest request, CancellationToken ct);
     Task<int> UpdateStudentAsync(UpdateStudentRequest request, CancellationToken ct);
+    Task<IReadOnlyList<string>> GetSchoolsAsync(CancellationToken ct);
 }

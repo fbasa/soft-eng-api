@@ -88,4 +88,16 @@ internal sealed class StudentRepository(IDapperBaseService dapper) : IStudentRep
 
         return await dapper.ExecuteCommandAsync("sp_UpdateStudent", parameters, ct);
     }
+    public Task<IReadOnlyList<string>> GetSchoolsAsync(CancellationToken ct)
+    {
+        var schools = new List<string>
+        {
+            "Computer Science ni Kinley",
+            "Engineering",
+            "Business",
+            "Arts & Humanities",
+            "Natural Sciences"
+        };
+        return Task.FromResult((IReadOnlyList<string>)schools);
+    }
 }
