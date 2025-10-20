@@ -92,11 +92,10 @@ internal sealed class StudentRepository(IDapperBaseService dapper) : IStudentRep
     {
         var schools = new List<string>
         {
-            "Computer Science ni Kinley",
-            "Engineering",
-            "Business",
-            "Arts & Humanities",
-            "Natural Sciences"
+            "High School ni Kinley",
+            "College",
+            "University",
+            "Other"
         };
         return Task.FromResult((IReadOnlyList<string>)schools);
     }
