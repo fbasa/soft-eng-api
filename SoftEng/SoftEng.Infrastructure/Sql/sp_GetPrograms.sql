@@ -1,0 +1,20 @@
+USE [SoftEng];
+GO
+
+SET ANSI_NULLS ON;
+GO
+
+SET QUOTED_IDENTIFIER ON;
+GO
+
+IF OBJECT_ID('sp_GetPrograms', 'P') IS NOT NULL
+    DROP PROCEDURE sp_GetPrograms;
+GO
+
+CREATE PROCEDURE sp_GetPrograms
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT Name FROM SharedTable WHERE Type = 'Program';
+END
+GO

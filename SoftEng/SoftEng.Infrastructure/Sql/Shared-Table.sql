@@ -17,9 +17,36 @@ CREATE TABLE SharedTable (
 
 GO
 
-INSERT INTO SharedTable (Type, Name) VALUES
-('Gender', 'Male'),
-('Gender', 'Female'),
-('Gender', 'Kurapika');
+DELETE FROM SharedTable
+WHERE Type = 'Gender' AND Name = 'Kurapika';
+GO
+
+INSERT INTO SharedTable (Type, Name)
+SELECT 'Gender', 'Male'
+WHERE NOT EXISTS (SELECT 1 FROM SharedTable WHERE Type = 'Gender' AND Name = 'Male');
+
+INSERT INTO SharedTable (Type, Name)
+SELECT 'Gender', 'Female'
+WHERE NOT EXISTS (SELECT 1 FROM SharedTable WHERE Type = 'Gender' AND Name = 'Female');
+GO
+
+INSERT INTO SharedTable (Type, Name)
+SELECT 'Semester', '1st'
+WHERE NOT EXISTS (SELECT 1 FROM SharedTable WHERE Type = 'Semester' AND Name = '1st');
+
+INSERT INTO SharedTable (Type, Name)
+SELECT 'Semester', '2nd'
+WHERE NOT EXISTS (SELECT 1 FROM SharedTable WHERE Type = 'Semester' AND Name = '2ndKinley');
+GO
+
+INSERT INTO SharedTable (Type, Name)
+SELECT 'Program', 'BSCS'
+WHERE NOT EXISTS (SELECT 1 FROM SharedTable WHERE Type = 'Program' AND Name = 'BSCS');
+
+INSERT INTO SharedTable (Type, Name)
+SELECT 'Program', 'BSED'
+WHERE NOT EXISTS (SELECT 1 FROM SharedTable WHERE Type = 'Program' AND Name = 'BSED');
+GO
+
 
 GO
