@@ -20,6 +20,7 @@ public static class DependencyInjection
 
         //Repositories
         services.AddScoped<IStudentRepository, StudentRepository>();
+        services.AddScoped<ISharedRepository, SharedRepository>();
         //TODO: Add more repository here
 
         //Dapper

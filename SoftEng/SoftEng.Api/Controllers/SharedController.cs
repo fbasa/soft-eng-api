@@ -1,33 +1,22 @@
-using MediatR;
 using Asp.Versioning;
-using SoftEng.Domain.Request;
 using Microsoft.AspNetCore.Mvc;
+using SoftEng.Domain.Request;
+using MediatR;
+using SoftEng.Application.Handlers;
 
 namespace SoftEng.Api.Controllers;
 
 [ApiController]
 [ApiVersion(1)]
 [Route("api/v{version:apiVersion}/[controller]")]
-public class SharedController() : ControllerBase
+public class SharedController(IMediator sender,
+    ILogger <SharedController> logger) : ControllerBase
 {
     [HttpGet("Genders")]
-    public async Task<IActionResult> GetGenderAsync(CancellationToken ct)
+    public async Task<IActionResult> GetGendersAsync([FromQuery] GetGendersRequest request, CancellationToken ct)
     {
-        return Ok(new List<string> { "Male", "Female" });
-    }
-    [HttpGet("Schools")]
-    public async Task<IActionResult> GetSchoolAsync(CancellationToken ct)
-    {
-        return Ok(new List<string> { "High School", "College", "University", "Other" });
-    }
-    [HttpGet("Programs")]
-    public async Task<IActionResult> GetProgramAsync(CancellationToken ct)
-    {
-        return Ok(new List<string> { "Computer Science", "Engineering", "Business", "Arts & Humanities", "Natural Sciences" });
-    }
-    [HttpGet("Semesters")]
-    public async Task<IActionResult> GetSemesterAsync(CancellationToken ct)
-    {
-        return Ok(new List<string> { "1st", "2nd" });
+        logger.LogInformation("Executing genders");
+        var genders = await sender.Send(new GetGendersQuery(request), ct);
+        return Ok(genders);
     }
 }
