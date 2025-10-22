@@ -1,7 +1,4 @@
 ﻿namespace SoftEng.Domain.Request
 {
-    public sealed record GetGendersRequest()
-    {
-
-    }
+    public sealed record GetGendersRequest;
 }

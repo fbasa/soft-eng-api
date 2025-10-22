@@ -1,13 +1,16 @@
 ﻿using SoftEng.Application.Contracts;
+using SoftEng.Domain.Model;
 using SoftEng.Domain.Request;
+using SoftEng.Infrastructure.Dapper;
 
 namespace SoftEng.Infrastructure.Repositories;
 
-internal sealed class SharedRepository() : ISharedRepository
+internal sealed class SharedRepository(IDapperBaseService dapper) : ISharedRepository
 {
-    public async Task<IReadOnlyList<string>> GetGendersAsync(GetGendersRequest request, CancellationToken ct)
+    public async Task<IReadOnlyList<SharedModel>> GetGendersAsync(CancellationToken ct)
     {
-        var genders = new List<string> { "Male", "Female", "JKL Kinley"};
-        return await Task.FromResult(genders);
+        const string sql = "sp_GetGenders";
+        var genders = await dapper.SqlQueryAsync<SharedModel>(sql,null, ct);
+        return genders.ToList();
     }
 }
