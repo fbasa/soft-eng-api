@@ -1,7 +1,6 @@
 using Asp.Versioning;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SoftEng.Application.Handlers;
+using SoftEng.Application.Contracts;
 using SoftEng.Domain.Request;
 
 namespace SoftEng.Api.Controllers;
@@ -9,27 +8,22 @@ namespace SoftEng.Api.Controllers;
 [ApiController]
 [ApiVersion(1)]
 [Route("api/v{version:apiVersion}/[controller]")]
-public class SharedController(IMediator sender, ILogger <SharedController> logger) : ControllerBase
+public class SharedController : ControllerBase
 {
+    private readonly ISharedRepository _sharedRepository;
+    private readonly ILogger<SharedController> _logger;
+
+    public SharedController(ISharedRepository sharedRepository,  ILogger<SharedController> logger)
+    {
+        _sharedRepository = sharedRepository;
+        _logger = logger;
+    }
     [HttpGet("Genders")]
-    public async Task<IActionResult> GetGenderAsync(CancellationToken ct)
+    public async Task<IActionResult> GetGendersAsync(CancellationToken ct)
     {
-        return Ok(new List<string> { "Male", "Female", "Kinley" });
-    }
-    [HttpGet("Schools")]
-    public async Task<IActionResult> GetSchoolsAsync(CancellationToken ct)
-    {
-        logger.LogInformation("Fetching school types");
-        return Ok(await sender.Send(new GetSchoolListQuery(), ct));
-    }
-    [HttpGet("Programs")]
-    public async Task<IActionResult> GetProgramAsync(CancellationToken ct)
-    {
-        return Ok(new List<string> { "Computer Science", "Engineering", "Business", "Arts & Humanities", "Natural Sciences" });
-    }
-    [HttpGet("Semesters")]
-    public async Task<IActionResult> GetSemesterAsync(CancellationToken ct)
-    {
-        return Ok(new List<string> { "1st", "2nd" });
+        _logger.LogInformation("Executing genders");
+        var request = new GetGendersRequest();
+        var genders = await _sharedRepository.GetGendersAsync(request, ct);
+        return Ok(genders);
     }
 }
