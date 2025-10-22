@@ -12,11 +12,12 @@ namespace SoftEng.Api.Controllers;
 public class SharedController(IMediator sender,
     ILogger <SharedController> logger) : ControllerBase
 {
-    [HttpGet("Genders")]
-    public async Task<IActionResult> GetGendersAsync([FromQuery] GetGendersRequest request, CancellationToken ct)
+    [HttpGet("items")]
+    public async Task<IActionResult> GetSharedItemsAsync([FromQuery] GetSharedRequest request, CancellationToken ct)
     {
-        logger.LogInformation("Executing genders");
-        var genders = await sender.Send(new GetGendersQuery(request), ct);
-        return Ok(genders);
+        logger.LogInformation("Executing shared items query for type: {Type}", request.Type);
+
+        var items = await sender.Send(new GetSharedQuery(request), ct);
+        return Ok(items);
     }
 }
