@@ -19,8 +19,4 @@
     <ProjectReference Include="..\SoftEng.Domain\SoftEng.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Sql\" />
-  </ItemGroup>
-
 </Project>
