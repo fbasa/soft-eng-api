@@ -5,7 +5,7 @@ BEGIN
     SET NOCOUNT ON;
 
     SELECT Id, Name
-    FROM SharedTable
+    FROM SharedItem
     WHERE Type = @Type
     ORDER BY Name;
 END

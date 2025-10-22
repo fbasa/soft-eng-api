@@ -16,8 +16,6 @@ public class SharedController(IMediator sender,
     public async Task<IActionResult> GetSharedItemsAsync([FromQuery] GetSharedRequest request, CancellationToken ct)
     {
         logger.LogInformation("Executing shared items query for type: {Type}", request.Type);
-
-        var items = await sender.Send(new GetSharedQuery(request), ct);
-        return Ok(items);
+        return Ok(await sender.Send(new GetSharedQuery(request), ct));
     }
 }
