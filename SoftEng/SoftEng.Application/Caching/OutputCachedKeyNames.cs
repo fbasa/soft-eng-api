@@ -3,4 +3,5 @@
 public sealed class OutputCachedKeyNames
 {
     public const string StudentList = "StudLists";
+    public const string CourseList = "CourseList";
 }
